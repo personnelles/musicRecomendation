@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load common %}
+{% block title %}个人主页{% endblock %}
+
+{% block content %}
+    <h1 class="card-title text-center mb-4" style="color:#4a90e2;">
+        <i class="fas fa-user-circle text-primary"></i> {{ user.username }} 的个人信息
+    </h1>
+    <table class="table table-hover table-bordered rounded-3 overflow-hidden">
+        <tbody class="align-middle">
+        <tr>
+            <th><i class="fas fa-id-badge me-2 text-secondary"></i>我的ID号</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th><i class="fas fa-user me-2 text-secondary"></i>我的用户名</th>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr class="align-middle">
+            <th><i class="fas fa-envelope me-2 text-secondary"></i>我的邮箱</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th><i class="fas fa-calendar-alt me-2 text-secondary"></i>加入时间</th>
+            <td>{{ user.date_joined|date:"Y年m月d日" }}</td>
+        </tr>
+        <tr>
+            <th>
+                <i class="fas fa-id-card me-2"></i>姓氏
+            </th>
+            <td>{{ user.last_name|default:"暂无" }}</td>
+        </tr>
+        <tr>
+            <th>
+                <i class="fas fa-baby me-2"></i>
+                名字
+            </th>
+            <td>{{user.first_name|default:"暂无"}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-4 gap-3">
+        <a href="{% url 'my_users:change_password' %}" class="btn btn-outline-primary rounded-pill">
+            <i class="fas fa-key"></i> 修改密码
+        </a>
+        <a href="{% url 'my_users:user_edit' %}" class="btn btn-outline-success rounded-pill">
+            <i class="fas fa-user-edit"></i> 修改信息
+        </a>
+    </div>
+    <div class="mt-5 p-4 text-center bg-white shadow-sm rounded-4 animate__animated animate__fadeInUp">
+        <h2 class="mb-3">我播放次数的最多歌曲是</h2>
+        <p class="lead text-muted">
+            <strong>
+                <a>{{ top_songs.0.name }}</a> 您播放了<var class="fs-4 text-primary">{{ top_songs.0.play_count }}</var>次
+            </strong>
+        </p>
+        <h2 class="mb-3">我播放最多的标签是</h2>
+    <p class="lead text-muted">
+       <a href="/index?tag={{ labels.0.0 }}"> {{ labels.0.0 }} {{ labels.0.1}}</a>
+    </p>
+    
+    </div>
+{% endblock %}
+
+
+

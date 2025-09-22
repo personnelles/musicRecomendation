@@ -1,0 +1,418 @@
+{
+    "license": "eyJhcGkiOiAieGluemhpbGlhbi5jbyJ9@f3IirU6BtQ/zWT6yTo/vxDbZMci8JgetODS053G/PtDDRwKKzIcwuzxmKKnhfe73sqjwtuie9v2eRpdTLywKtUhgEO5rlBG9bRNP8hHq9p/FgvXceCq8nD73L1TTZn3/S6/J6XyNWXQCirNY4pfOCqJGLsW4KbRjHe/iNvI8PKLNq/S1robGaYkR5wmSHc/KApytnk9DgQ+b4M3bEwlIXuECXCwx4o+1p2KBLGLMpIIcZ8rzlNi+aJ1/QJ9H/EleM421B5AwR41Urg69BMJ8ReQ++eNGqrkBwFYZfCu/s6HhZa1yuRf6lmUPZFf3Z9F0Jy8m7ZjLziymGjY8zpPZLw==",
+    "api_base": "https://fd1.xinzhilian.co/api/v1",
+    "land_page": true,
+    "cf_site_key": "",
+    "v2board_version": "wyxboard",
+    "expired_notice": 5,
+    "traffic_warning_percent": 0.2,
+    "hide_traffic_records": false,
+    "ticket_need_sub": false,
+    "brand_name": "智连云",
+    "logo_img": "/logo.svg",
+    "locales":[
+        { "label": "简体中文", "value": "zh-CN" },
+        { "label": "English", "value": "en-US" }
+    ],
+    "default_locale":"zh-CN",
+    "default_theme":"light",
+    "register_email_white_list":[
+
+    ],
+    "bg_imgs":{
+        "home":"/imgs/bg1.jpg",
+        "login":"/imgs/bg2.jpg",
+        "anno_default": "/imgs/bg2.jpg",
+        "knowledge":"/imgs/bg3.jpg"
+    },
+    "repeat_popup": false,
+    "carousel": true,
+    "client_download": {
+        "购买套餐": {
+            "icon": "cart-plus",
+            "color": "#e95420",
+            "url": "/console/plan"
+        },
+        "使用教程": {
+            "icon": "book",
+            "color": "#181818",
+            "url": "/console/knowledge"
+        },
+        "Windows": {
+            "icon": "windows",
+            "color": "#0067b8",
+            "url": "/console/knowledge"
+        },
+        "Android":{
+            "icon": "android",
+            "color": "#3cd382",
+            "url": "/console/knowledge"
+        },
+        "IOS": {
+            "icon": "apple",
+            "color": "#181818",
+            "url": "/console/knowledge"
+        },
+        "MacOS": {
+            "icon": "laptop",
+            "color": "#181818",
+            "url": "/console/knowledge"
+        }
+    },
+    "home": {
+        "header": [
+            {
+                "text": "首页",
+                "url": "/console"
+            }
+        ],
+        "hero": {
+            "tag": "新用户注册可免费试用两小时",
+            "title": "网络加速服务",
+            "content": "获取与全球数百内容供应商互联的网络加速服务高达2000Mbps的单线接入能力",
+            "btn": [
+                {
+                    "text": "立即试用",
+                    "url": "/console"
+                }
+            ]
+        },
+        "product_list": {
+            "title": "热门订阅计划",
+            "content": "选择最适合您的计划",
+            "area_list": [
+                {
+                    "code": "hk",
+                    "text": "香港"
+                },
+                {
+                    "code": "sg",
+                    "text": "新加坡"
+                },
+                {
+                    "code": "jp",
+                    "text": "日本"
+                },
+                {
+                    "code": "cn",
+                    "text": "台湾地区"
+                },
+                {
+                    "code": "kr",
+                    "text": "韩国"
+                },
+                {
+                    "code": "mo",
+                    "text": "澳门"
+                },
+                {
+                    "code": "my",
+                    "text": "马来西亚"
+                },
+                {
+                    "code": "id",
+                    "text": "印尼"
+                },
+                {
+                    "code": "vn",
+                    "text": "越南"
+                },
+                {
+                    "code": "th",
+                    "text": "泰国"
+                },
+                {
+                    "code": "in",
+                    "text": "印度"
+                },
+                {
+                    "code": "il",
+                    "text": "以色列"
+                },
+                {
+                    "code": "ae",
+                    "text": "迪拜"
+                },
+                {
+                    "code": "au",
+                    "text": "澳洲"
+                },
+                {
+                    "code": "us",
+                    "text": "美国"
+                },
+                {
+                    "code": "ca",
+                    "text": "加拿大"
+                },
+                {
+                    "code": "mx",
+                    "text": "墨西哥"
+                },
+                {
+                    "code": "gb",
+                    "text": "英国"
+                },
+                {
+                    "code": "fr",
+                    "text": "法国"
+                },
+                {
+                    "code": "de",
+                    "text": "德国"
+                },
+                {
+                    "code": "nl",
+                    "text": "荷兰"
+                },
+                {
+                    "code": "dk",
+                    "text": "西班牙"
+                },
+                {
+                    "code": "it",
+                    "text": "意大利"
+                },
+                {
+                    "code": "tr",
+                    "text": "土耳其"
+                },
+                {
+                    "code": "ua",
+                    "text": "乌克兰"
+
+                }
+
+            ],
+            "plans": [{
+                "key": "1",
+                "plan": "Mini 微量访问计划",
+                "flow": "120GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "14.00/月"
+            }, {
+                "key": "2",
+                "plan": "Lite 轻量访问计划",
+                "flow": "180GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "21.00/月"
+            }, {
+                "key": "3",
+                "plan": "Base 基础访问计划",
+                "flow": "320GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "35.00/月"
+            }, {
+                "key": "4",
+                "plan": "Pro 商务访问计划",
+                "flow": "540GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "60.00/月"
+            }, {
+                "key": "5",
+                "plan": "无限时150GB",
+                "flow": "150GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "30.00/一次性"
+            }, {
+                "key": "6",
+                "plan": "无限时300GB",
+                "flow": "300GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "60.00/一次性"
+            }, {
+                "key": "7",
+                "plan": "无限时600GB",
+                "flow": "600GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "120.00/一次性"
+            }, {
+                "key": "8",
+                "plan": "无限时1200GB",
+                "flow": "1200GB",
+                "speed": "2000Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "流媒体、GPT、跨境",
+                "price": "280.00/一次性"
+            }, {
+                "key": "10",
+                "plan": "定制线路",
+                "flow": "？？？GB",
+                "speed": "？？？Mbps",
+                "device": "不限制个人使用设备",
+                "unlocked": "电商/tiktok/直播",
+                "price": "？？？/咨询客服"
+            }],
+            "more": {
+                "title": "立即注册，选购更多订阅计划",
+                "btn": {
+                    "text": "开始选购",
+                    "url": "/console/plan"
+                }
+            }
+        },
+        "solution": {
+            "title": "解决方案",
+            "content": "我们为您提供高可用、安全的网络加速解决方案",
+            "card": [
+                {
+                    "title": "独家隧道技术",
+                    "content": "带有MPTCP特性的隧道技术安全快速通过防火墙的审查阻断。"
+                },
+                {
+                    "title": "智能接入点分配",
+                    "content": "成熟的智能接入点分配技术根据您的本地运营商与地理位置来智能分配接入点，无需专业知识或繁琐操作即可获得最佳性能。"
+                },
+                {
+                    "title": "全球自建数据中心",
+                    "content": "与多家运营商合作共建全球网络基础设施,，高达100+ ISP Peer， 与大多数内容供应商直接互联，庞大互联网资源触手可及。"
+                },
+                {
+                    "title": "先进的流媒体解锁",
+                    "content": "得益于自有AS号下2000+ IP地址，我们提供各种类型的媒体解锁。"
+                }
+            ]
+        },
+        "world_node": {
+            "title": "全球26个国家和地区已部署50+个节点",
+            "content": "智连云在全球25个国家和地区部署了30+个优质网络节点，其中包含CN2、9929、CMI、软银等链路优化，为您提供世界各地高速稳定的网络加速。",
+            "btn": {
+                "text": "查看更多",
+                "url": "/console/plan"
+            },
+            "node_dot": [
+                {
+                    "name": "美国",
+                    "left": "14%",
+                    "top": "54%"
+                },
+                {
+                    "name": "台湾",
+                    "right": "19%",
+                    "top": "60%"
+                },
+                {
+                    "name": "香港",
+                    "right": "20.3%",
+                    "top": "60%"
+                },
+                {
+                    "name": "法国",
+                    "right": "52%",
+                    "top": "48%"
+                },
+                {
+                    "name": "新加坡",
+                    "right": "24%",
+                    "top": "68.4%"
+                },
+                {
+                    "name": "韩国",
+                    "right": "17%",
+                    "top": "53%"
+                },
+                {
+                    "name": "日本",
+                    "right": "13.5%",
+                    "top": "54%"
+                },
+                {
+                    "name": "德国",
+                    "right": "49.5%",
+                    "top": "44%"
+                },
+                {
+                    "name": "英国",
+                    "right": "52.5%",
+                    "top": "43%"
+                }
+            ]
+        },
+        "support": {
+            "title": "合作伙伴"
+        },
+        "more": {
+            "title": "智连云您值得信赖的全球网络加速服务商",
+            "btn": {
+                "text": "进入控制台",
+                "url": "/console"
+            }
+        },
+        "footer": {
+            "sologan_1": "智连云一家专注于全球网络加速解决方案的服务商",
+            "sologan_2": "全球网络加速服务商",
+            "resources": [
+                {
+                    "text": "立即购买",
+                    "url": "/console/plan"
+                }
+            ],
+            "contact_btn": {
+                "text": "Telegram交流群",
+                "url": "https://t.me/ZLY459"
+            }
+        }
+    },
+    "auth":{
+        "type_text": "感谢您使用智连云"
+    },
+    "login":{
+        "title": "登录您的帐户",
+        "sub_title": "尽情冲浪，无限自由畅享极速网络"
+    },
+    "register": {
+        "sub_title": "尽情冲浪，无限自由畅享极速网络"
+    },
+    "telegram_modal": "<div>小助手: <a href='https://t.me/ZLY459' target='_blank'>https://t.me/ZLY459</a></div>",
+    "telegram_group_modal": "<div>小助手: <a href='https://t.me/ZLY459' target='_blank'>https://t.me/ZLY459</a></div>",
+    "node":  [
+        {
+            "label": "🇭🇰",
+            "value": "hk"
+        },{
+            "label": "🇸🇬",
+            "value": "sg"
+        },{
+            "label": "🇯🇵",
+            "value": "jp"
+        },{
+            "label": "🇺🇸",
+            "value": "us"
+        },{
+            "label": "🇨🇳",
+            "value": "cn"
+        },{
+            "label": "🇬🇧",
+            "value": "gb"
+        },{
+            "label": "🇰🇷",
+            "value": "kr"
+        },{
+            "label": "🇦🇺",
+            "value": "au"
+        }
+    ],
+    "plan_lable_color":[
+        {
+            "id": "mini",
+            "color": "#333",
+            "background": "#555"
+        }
+    ],
+    "new_user_offer": "",
+    "new_user": 7200
+}

@@ -1,0 +1,222 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load common %}
+{% block title %}
+    我的收藏
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">我的收藏</h1>
+    <form method="get" action="{% url 'search:search' %}" class="search-form d-flex mb-4">
+        <input id="search-song" type="text" name="q" placeholder="输入歌曲或者作家名称" value="{{ query }}"
+               class="form-control" aria-label="输入歌曲或者作家名称">
+        <button type="submit" class="btn btn-info btn-custom" title="提交按钮">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+    {#   分页 #}
+    <div class="pagination d-flex justify-content-center">
+        <div class="pagination-links d-flex flex-wrap gap-2">
+            {% if songs.has_previous %}
+                <a href="?{{ request.GET.urlencode|update_query:'page=1' }}"
+                   class="btn btn-outline-primary btn-custom">« 第一页</a>
+                {% with p_page="page="|my_add:songs.previous_page_number %}
+                    <a href="?{{ request.GET.urlencode|update_query:p_page }}"
+                       class="btn btn-outline-primary btn-custom">上一页</a>
+                {% endwith %}
+
+            {% else %}
+                <a href="#" class="btn btn-outline-primary btn-custom disabled">« 第一页</a>
+                <a href="#" class="btn btn-outline-primary btn-custom disabled">上一页</a>
+            {% endif %}
+
+            <span class="current align-self-center text-muted">
+                    第 {{ songs.number }} 页，共 {{ songs.paginator.num_pages }} 页
+                </span>
+
+            {% if songs.has_next %}
+                {% with n_page="page="|my_add:songs.next_page_number %}
+                    {% with l_page="page="|my_add:songs.paginator.num_pages %}
+                        <a href="?{{ request.GET.urlencode|update_query:n_page }}"
+                           class="btn btn-outline-primary btn-custom">下一页</a>
+                        <a href="?{{ request.GET.urlencode|update_query:l_page }}"
+                           class="btn btn-outline-primary btn-custom">最后一页 »</a>
+                    {% endwith %}
+                {% endwith %}
+            {% else %}
+                <a href="#" class="btn btn-outline-primary btn-custom disabled">下一页</a>
+                <a href="#" class="btn btn-outline-primary btn-custom disabled">最后一页 »</a>
+            {% endif %}
+        </div>
+    </div>
+    <table class="table table-striped table-hover" aria-labelledby="music-table-title">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">歌名</th>
+            <th scope="col">作家</th>
+            <th scope="col">歌曲流派</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for song in songs %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <td>{{ song.name }}</td>
+                <td>{{ song.artist }}</td>
+                <td>
+                    {#                ?{{ request.GET.urlencode|update_query:'tag=' }}{{ e }}#}
+                    {% for e in song.list_labels|split_by_space %}
+                        <a href="?{{ request.GET.urlencode|update_query:'tag=' }}{{ e }}"
+                           class="badge-custom" data-tag="{{ e }}">{{ e }}</a>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a data-index="{{ song.id }}"
+                       class="cc-xxxx btn btn-action {% if song.is_collected %}btn-uncollect{% else %}btn-collect{% endif %}"
+                       aria-label="{% if song.is_collected %}取消收藏{% else %}收藏{% endif %}">
+                        <i class="{% if song.is_collected %}fas{% else %}far{% endif %} fa-bookmark">
+                        </i>
+                    </a>
+                
+                <button class="btn-action btn-play play-music-button"
+                            data-name="{{ song.name }}" data-index="{{ song.id }}" data-score="{{ song.score }}"
+                            data-artist="{{ song.artist }}"
+                    >
+                        <i class="fas fa-play"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script src="{% static 'jquery/js/all.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            const has_src_song_ids = new Set()
+            let cur_button = null;
+            const audio_div = $('#div-play-music');
+            const audio_ele = $('#audio-play-music')[0]; // 原生音频元素
+            const soundwave = $('.soundwave');
+            const music_cover_ele = $("#img-play-music-cover")[0]
+            const play_music_wrapper = $('#play-music-wrapper');
+            const dig_score_for_song = $('#dig-for-score-song')[0]
+
+            const for_score_for_song = $('#form-for-score-song')[0]
+            const js_audio_play_music = document.querySelector("#audio-play-music")
+
+
+            const get_music_cover_img_by_id = async (id) => {
+
+                const response = await fetch(`/index/cover/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    }
+                })
+                return await response.json()
+            }
+
+            const play_music = async (id) => {
+                const song = await fetch(`/index/get_song_by_id/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    }
+                });
+                if (song.ok) {
+                    const blob = await song.blob()
+                    audio_ele.src = URL.createObjectURL(blob)
+                    has_src_song_ids.add(id)
+                    await audio_ele.play();
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+            const sendRequest = async (url, data) => {
+                try {
+                    return await $.ajax({
+                        url: url,
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}",
+                            "Content-Type": "application/json"
+                        },
+                        data: JSON.stringify(data)
+                    });
+                } catch (error) {
+                    alert("操作失败，请稍后重试");
+                    return null;
+                }
+            }
+
+            
+            
+
+            $(".cc-xxxx").on("click", async function () {
+                const $button = $(this);
+                const id = $button.data("index");
+                const response = await sendRequest(`/index/collect_song/${id}`, {song_id: id});
+
+                if (response) {
+                    alert(response.message);
+                    $button.html(`<i class="${response.is_collected ? "fas" : "far"} fa-bookmark"></i>`);
+                }
+            });
+
+
+            // 播放歌曲按钮
+            $('.play-music-button').on('click', async function (e) {
+                const source = $(this);
+                audio_ele.dataset.index = source.data('index')
+                audio_ele.dataset.name=source.data('name')
+                const id = audio_ele.dataset.index
+                // audio_ele.src = `/index/get_song_by_id/${id}`
+                if (cur_button !== null){
+                    cur_button.disabled = false;
+                    cur_button.innerHTML = '<i class="fas fa-play me-2"></i>'
+                }
+                    
+                cur_button = source[0];
+                cur_button.disabled = true;
+
+                const res = await play_music(id)
+                const add_play_count = await sendRequest(`/index/play_song/${id}`)
+                const data = await get_music_cover_img_by_id(id)
+                music_cover_ele.src = `data:image/jpeg;base64,${data.image}`
+                console.log(add_play_count)
+                sessionStorage.setItem("playing_song_id", `${id}`)
+                if (res) {
+                    play_music_wrapper.addClass('show')
+                    audio_ele.dataset.album = data.album
+                }
+                
+                $("#song-name").text(source.data('name'))
+                $("#song-album").text(data.album)
+                $('#current-song-title').text(source.data('name'));
+                music_cover_ele.src = `data:image/jpeg;base64,${data.image}`
+                const icon = cur_button.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                    cur_button.innerHTML = '<i class="fas fa-pause me-2"></i>';
+                }
+            });
+            
+
+            $('#audio-play-music').on('play', async function (e) {
+                cur_button.disabled = true
+                cur_button.innerHTML = '<i class="fas fa-pause me-2"></i>'
+            })
+
+            $('#audio-play-music').on('pause', async function (e) {
+                cur_button.disabled = false
+                cur_button.innerHTML = '<i class="fas fa-play me-2"></i>'
+            })
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,469 @@
+o{% load static %}
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    {% load common %}
+    <title>{% block title %}音乐天堂{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.css' %}">
+
+    <style>
+        body {
+            position: relative;
+            background-color: #f4f7fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .navbar {
+            top: 8px;
+            border-radius: 0 0 12px 12px;
+            border-bottom: 1px solid #e9ecef;
+            position: sticky;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #2c3e50 !important;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        .nav-link.active {
+            color: #007bff !important;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            padding: 8px 15px;
+        }
+
+        footer {
+            border-radius: 12px 12px 0 0;
+            border-top: 1px solid #e9ecef;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+    </style>
+    <style>
+
+
+        .container {
+            max-width: 1200px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .btn-custom {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 15px;
+        }
+
+        .table thead {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+
+        .search-form input {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .search-form button {
+            border-radius: 0 8px 8px 0;
+        }
+
+
+        .play-music-wrapper {
+            display: flex;
+            position: sticky;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+
+        .soundwave span {
+            display: inline-block;
+            width: 5px;
+            height: 10px;
+            background: #007bff;
+            border-radius: 3px;
+            animation: bounce 1s infinite ease-in-out;
+            transform-origin: bottom;
+            animation-play-state: paused;
+        }
+
+        .soundwave.running span {
+            animation-play-state: running;
+        }
+
+        .soundwave span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .soundwave span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .soundwave span:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .soundwave span:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scaleY(0.5);
+            }
+            50% {
+                transform: scaleY(1.5);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+
+            .table th, .table td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .btn-custom {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .search-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-form input, .search-form button {
+                border-radius: 8px;
+            }
+
+            .table-title {
+                font-size: 1.1rem;
+            }
+        }
+
+
+        .play-music-wrapper {
+            position: fixed;
+            bottom: -200px; /* 默认位置在页面底部外 */
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: bottom 0.5s ease-in-out;
+            background: #f4f7fa;
+            padding: 10px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+        /* 播放时弹出的效果 */
+        .play-music-wrapper.show {
+            bottom: 0; /* 弹出显示 */
+        }
+
+        /* 音乐封面 */
+        #img-play-music-cover {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+
+        /* 音频控件 */
+        #audio-play-music {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        /* 添加声音波形效果 */
+        .soundwave span {
+            display: inline-block;
+            width: 5px;
+            height: 10px;
+            background: #007bff;
+            border-radius: 3px;
+            animation: bounce 1s infinite ease-in-out;
+            transform-origin: bottom;
+        }
+
+        .soundwave.running span {
+            animation-play-state: running;
+        }
+    </style>
+    <style>
+        .play-music-wrapper {
+            position: fixed;
+            bottom: -150px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            padding: 8px 12px;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+            transition: bottom 0.5s ease-in-out;
+            z-index: 1000;
+        }
+
+        .play-music-wrapper.show {
+            bottom: 0;
+        }
+
+        .player-card {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #img-play-music-cover {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .song-info h5 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .soundwave {
+            display: flex;
+            gap: 3px;
+            height: 20px;
+        }
+
+        .soundwave span {
+            width: 4px;
+            background: #007bff;
+            border-radius: 2px;
+            animation: bounce 1s infinite ease-in-out;
+            animation-play-state: paused;
+            transform-origin: bottom;
+        }
+
+        .soundwave.running span {
+            animation-play-state: running;
+        }
+
+        .soundwave span:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .soundwave span:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .soundwave span:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .soundwave span:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scaleY(0.5);
+            }
+            50% {
+                transform: scaleY(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow">
+
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/index"><i class="fas fa-music me-2"></i>音乐天堂</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon">
+            </span>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="index" href="{% url 'index:home' %}">
+                        <i class="fas fa-home me-1"></i>
+                        首页
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="collection" href="{% url 'index:get_collections' %}"
+                       id="get-collection"
+                    ><i class="fas fa-heart me-1"></i>我的收藏</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="history" href="{% url 'index:play_history' %}"><i
+                            class="fas fa-history me-1"></i>播放历史</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="profile" href="{% url 'my_users:profile' %}"><i
+                            class="fas fa-user me-1"></i>{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fas fa-sign-out-alt me-2"></i>退出登录
+                    </a>
+                </li>
+            </ul>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="index" href="{% url 'index:home' %}">
+                        <i class="fas fa-home me-1"></i>
+                        首页
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="collection" href="{% url 'index:get_collections' %}"
+                       id="get-collection"
+                    ><i class="fas fa-heart me-1"></i>我的收藏</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="recommend" href="{% url 'index:recommend' %}"
+                       id="recommend"
+                    >
+                        <i class="fas fa-music me-1"></i>音乐推荐
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="history" href="{% url 'index:play_history' %}"><i
+                            class="fas fa-history me-1"></i>播放历史</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-pos="profile" href="{% url 'my_users:profile' %}"><i
+                            class="fas fa-user me-1"></i>个人中心</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_users:logout' %}">
+                        <i class="fas fa-sign-out-alt me-2"></i>退出登录
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<script>
+    const pos = "{{ pos }}"
+    document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+
+            if (link.dataset.pos === pos) link.classList.add('active');
+        });
+    });
+
+
+</script>
+{% if user.is_authenticated %}
+    <div class="container mt-4">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+
+{% else %}
+    <div class="container text-center py-5">
+        <h3 class="text-muted">请先登录</h3>
+        <a href="{% url 'my_users:login' %}" class="btn btn-primary btn-custom">
+            <i class="fas fa-sign-in-alt me-2"></i>登录
+        </a>
+    </div>
+{% endif %}
+<footer class="bg-white shadow py-3 text-center">
+    <p><i class="fas fa-copyright me-2"></i>2025 音乐天堂. 用旋律点亮灵魂 <i class="fas fa-rainbow me-1"></i><i
+            class="fas fa-music"></i></p>
+</footer>
+
+<div class="play-music-wrapper" id="play-music-wrapper">
+    <div class="player-card d-flex align-items-center">
+        <img src="" id="img-play-music-cover" alt="Song Cover"/>
+        <div class="song-info ms-3">
+            <h5 id="song-name" class="mb-1">歌曲名</h5>
+            <small id="song-album" class="text-muted">专辑名</small>
+            <div class="soundwave mt-2" id="wave">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <audio id="audio-play-music" controls class="mt-2"></audio>
+        </div>
+    </div>
+</div>
+<script>
+    const audio = document.getElementById('audio-play-music');
+    const wrapper = document.getElementById('play-music-wrapper');
+    const wave = document.getElementById('wave');
+
+    audio.addEventListener('play', () => {
+        wrapper.classList.add('show');
+        wave.classList.add('running');
+    });
+
+    audio.addEventListener('pause', () => {
+        wave.classList.remove('running');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="注册新用户">
+    <title>注册新用户</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.css' %}">
+    <style>
+        /* General Styles */
+        body {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f4f7fa 100%);
+            font-family: 'Segoe UI', -apple-system, Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 20px;
+            padding: 0;
+        }
+
+        .card {
+            background: #fff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+
+        h2 {
+            color: #1a3c6d;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 表单样式 */
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .form-group input:invalid[focused="true"] {
+            border-color: #dc3545;
+        }
+
+        /* 错误信息样式 */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .error-message::before {
+            content: '\f06a';
+            font-family: 'Font Awesome 6 Free', serif;
+            font-weight: 900;
+        }
+
+        /* Button Styles */
+        .btn-custom {
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            text-align: center;
+            transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-custom:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            border: none;
+            color: #fff;
+        }
+
+        /* Links */
+        .login-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading Animation */
+        .btn-custom.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 576px) {
+            .container {
+                max-width: 100%;
+                margin: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .form-group input {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            .btn-custom {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #0056b3;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #007bff;
+            padding-left: 10px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* 姓名横向排列 */
+        .name-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .name-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+
+        .error-message {
+            margin-top: 0.2rem;
+            font-size: 0.8rem;
+            color: #dc3545;
+            padding-left: 0.2rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>注册新用户</h2>
+        <form method="post" class="register-form needs-validation" novalidate>
+            {% csrf_token %}
+
+            <div class="section-title">账号信息</div>
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">用户名</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors.as_text }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">邮箱</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error-message">{{ form.email.errors.as_text }}</div>
+                {% endif %}
+            </div>
+
+            <div class="name-row">
+                <div class="form-group">
+                    <label for="{{ form.first_name.id_for_label }}">名</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <div class="error-message">{{ form.first_name.errors.as_text }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.last_name.id_for_label }}">姓</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <div class="error-message">{{ form.last_name.errors.as_text }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="section-title">密码信息</div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">密码</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="error-message">{{ form.password.errors.as_text }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.confirm_password.id_for_label }}">确认密码</label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                    <div class="error-message">{{ form.confirm_password.errors.as_text }}</div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary btn-custom w-100 mt-3">
+                <i class="fas fa-user-plus me-2"></i>注册
+            </button>
+        </form>
+        <div class="mt-3 text-center">
+            <a href="{% url 'my_users:login' %}" class="login-link" title="已有账户？去登录">已有账户？去登录</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.querySelector('.register-form').addEventListener('submit', function () {
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.classList.add('loading');
+        submitButton.disabled = true;
+    });
+
+
+    document.querySelectorAll('.form-group input').forEach(input => {
+        input.addEventListener('blur', () => {
+            input.setAttribute('focused', 'true');
+        });
+    });
+
+    // Add loading state to form submission
+    document.querySelector('.register-form').addEventListener('submit', function () {
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.classList.add('loading');
+        submitButton.disabled = true;
+    });
+
+    // Client-side validation feedback
+    document.querySelectorAll('.form-group input').forEach(input => {
+        input.addEventListener('blur', () => {
+            input.setAttribute('focused', 'true');
+        });
+    });
+
+
+</script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'fontawesome/js/all.js' %}"></script>
+</body>
+</html>
